@@ -1,0 +1,211 @@
+/* ============================================================
+   LOGIN DRAWER — Panel deslizable desde la derecha
+   Universidad de Pamplona SIU
+   ============================================================ */
+
+/* ── Drawer principal ──────────────────────────────────────── */
+.login-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 420px;
+  max-width: 100vw;
+  background: var(--surface-card);
+  z-index: var(--z-drawer);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--sh-xl);
+  transform: translateX(100%);
+  transition: transform var(--tr-slow);
+  overflow: hidden;
+}
+
+.login-drawer.is-open {
+  transform: translateX(0);
+}
+
+/* ── Header del drawer ─────────────────────────────────────── */
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-6) var(--sp-6) var(--sp-4);
+  border-bottom: 1px solid var(--col-gray-200);
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--col-blue-700) 0%, var(--col-blue-800) 100%);
+}
+
+.drawer-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: #fff;
+  font-style: italic;
+  margin: 0;
+}
+
+.drawer-close {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-md);
+  color: rgba(255,255,255,.7);
+  transition: background var(--tr-fast), color var(--tr-fast);
+  flex-shrink: 0;
+}
+
+.drawer-close:hover {
+  background: rgba(255,255,255,.15);
+  color: #fff;
+}
+
+.drawer-close svg { width: 20px; height: 20px; }
+
+/* ── Tabs ──────────────────────────────────────────────────── */
+.drawer-tabs {
+  display: flex;
+  position: relative;
+  background: var(--col-gray-50);
+  border-bottom: 1px solid var(--col-gray-200);
+  flex-shrink: 0;
+  padding: var(--sp-2) var(--sp-4) 0;
+  gap: var(--sp-1);
+}
+
+.drawer-tab {
+  flex: 1;
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--col-gray-500);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: color var(--tr-fast), border-color var(--tr-fast);
+  text-align: center;
+  letter-spacing: .01em;
+  white-space: nowrap;
+}
+
+.drawer-tab:hover {
+  color: var(--col-gray-800);
+}
+
+.drawer-tab.is-active {
+  color: var(--col-red-700);
+  border-bottom-color: var(--col-red-700);
+}
+
+/* Indicador animado */
+.drawer-tab-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background: var(--col-red-700);
+  border-radius: var(--r-full) var(--r-full) 0 0;
+  transition: left var(--tr-normal), width var(--tr-normal);
+}
+
+/* ── Cuerpo scrollable ─────────────────────────────────────── */
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sp-6);
+}
+
+/* ── Paneles de pestañas ───────────────────────────────────── */
+.drawer-panel {
+  display: none;
+  animation: fadeInUp var(--tr-normal) both;
+}
+
+.drawer-panel.is-active {
+  display: block;
+}
+
+/* ── Formulario dentro del drawer ──────────────────────────── */
+.drawer-form-header {
+  margin-bottom: var(--sp-6);
+  text-align: center;
+}
+
+.drawer-form-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--r-xl);
+  background: var(--col-blue-50);
+  color: var(--col-blue-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--sp-4);
+}
+
+.drawer-form-icon.red-icon {
+  background: var(--col-red-50);
+  color: var(--col-red-700);
+}
+
+.drawer-form-icon svg { width: 32px; height: 32px; }
+
+.drawer-form-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--col-gray-900);
+  margin-bottom: var(--sp-1);
+}
+
+.drawer-form-sub {
+  font-size: var(--text-sm);
+  color: var(--col-gray-500);
+}
+
+/* ── Error general ─────────────────────────────────────────── */
+.drawer-error {
+  display: none;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--col-danger-bg);
+  border: 1px solid var(--col-red-200);
+  border-radius: var(--r-md);
+  margin-bottom: var(--sp-5);
+  font-size: var(--text-sm);
+  color: var(--col-danger);
+}
+
+.drawer-error.is-visible { display: flex; }
+
+.drawer-error svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ── Pie del drawer ────────────────────────────────────────── */
+.drawer-footer {
+  padding: var(--sp-4) var(--sp-6);
+  border-top: 1px solid var(--col-gray-200);
+  background: var(--col-gray-50);
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.drawer-footer-text {
+  font-size: var(--text-xs);
+  color: var(--col-gray-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.drawer-footer-text svg { width: 14px; height: 14px; color: var(--col-success); }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .login-drawer {
+    width: 100vw;
+    border-radius: 0;
+  }
+}

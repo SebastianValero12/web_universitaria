@@ -1,0 +1,373 @@
+/* ============================================================
+   ADMIN-LOGIN.CSS — Layout de dos paneles para acceso institucional
+   Universidad de Pamplona SIU
+   ============================================================ */
+
+.admin-login-body {
+  background: var(--col-blue-900);
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ── Layout dos paneles ────────────────────────────────────── */
+.admin-login-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ────────────────────────────────────────────────────────────
+   PANEL IZQUIERDO
+   ──────────────────────────────────────────────────────────── */
+.login-panel-left {
+  flex: 0 0 460px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-10) var(--sp-10);
+  overflow: hidden;
+  background: linear-gradient(
+    155deg,
+    var(--col-blue-800) 0%,
+    var(--col-blue-900) 45%,
+    var(--col-red-900)  100%
+  );
+}
+
+/* Fondo decorativo (patrón de puntos) */
+.login-panel-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 10% 90%, rgba(153,0,0,.2) 0%, transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(0,85,170,.15) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+/* Grid de puntos decorativos */
+.login-panel-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Marca */
+.login-left-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-bottom: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.login-left-brand svg {
+  width: 48px;
+  height: 56px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.3));
+}
+
+.login-left-name {
+  display: block;
+  font-size: var(--text-md);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.login-left-sub {
+  display: block;
+  font-size: var(--text-xs);
+  color: rgba(255,255,255,.5);
+  font-weight: 500;
+}
+
+/* Contenido central */
+.login-left-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--sp-10) 0;
+}
+
+.login-left-title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: var(--sp-5);
+}
+
+.login-left-title em {
+  font-style: italic;
+  color: var(--col-red-300);
+}
+
+.login-left-desc {
+  font-size: var(--text-md);
+  color: rgba(255,255,255,.65);
+  line-height: 1.7;
+  max-width: 340px;
+  margin-bottom: var(--sp-8);
+}
+
+/* Stats decorativos */
+.login-left-stats {
+  display: flex;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+}
+
+.login-left-stat {}
+
+.login-left-stat-num {
+  display: block;
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--col-red-300);
+  line-height: 1;
+}
+
+.login-left-stat-lbl {
+  display: block;
+  font-size: var(--text-xs);
+  color: rgba(255,255,255,.5);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+/* Aviso de seguridad */
+.login-left-security {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+  margin-top: var(--sp-6);
+}
+
+.login-left-security svg {
+  width: 18px;
+  height: 18px;
+  color: var(--col-success);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.login-left-security p {
+  font-size: var(--text-xs);
+  color: rgba(255,255,255,.55);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ────────────────────────────────────────────────────────────
+   PANEL DERECHO (formulario)
+   ──────────────────────────────────────────────────────────── */
+.login-panel-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-page);
+  padding: var(--sp-8);
+}
+
+/* Tarjeta del formulario */
+.login-form-card {
+  background: var(--surface-card);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--sh-xl);
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+}
+
+/* Cabecera de tarjeta */
+.login-card-header {
+  padding: var(--sp-8) var(--sp-8) var(--sp-5);
+  border-bottom: 1px solid var(--col-gray-100);
+}
+
+.login-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: var(--text-sm);
+  color: var(--col-gray-500);
+  text-decoration: none;
+  margin-bottom: var(--sp-5);
+  transition: color var(--tr-fast);
+}
+
+.login-back-link:hover { color: var(--col-blue-700); }
+.login-back-link svg   { width: 16px; height: 16px; }
+
+.login-card-title {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--col-gray-900);
+  margin-bottom: var(--sp-1);
+}
+
+.login-card-sub {
+  font-size: var(--text-sm);
+  color: var(--col-gray-500);
+  margin: 0;
+}
+
+/* ── Tabs ──────────────────────────────────────────────────── */
+.login-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--col-gray-100);
+}
+
+.login-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-5);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--col-gray-500);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color var(--tr-fast), border-color var(--tr-fast), background var(--tr-fast);
+}
+
+.login-tab svg { width: 16px; height: 16px; }
+
+.login-tab:hover {
+  background: var(--col-gray-50);
+  color: var(--col-gray-800);
+}
+
+.login-tab.is-active {
+  color: var(--col-blue-700);
+  border-bottom-color: var(--col-blue-700);
+}
+
+/* ── Paneles ───────────────────────────────────────────────── */
+.login-panel {
+  display: none;
+  padding: var(--sp-7) var(--sp-8);
+  animation: fadeInUp var(--tr-normal) both;
+}
+
+.login-panel.is-active { display: block; }
+
+/* ── Error inline ──────────────────────────────────────────── */
+.login-error {
+  display: none;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--col-danger-bg);
+  border: 1px solid var(--col-red-200);
+  border-radius: var(--r-md);
+  margin-bottom: var(--sp-5);
+  font-size: var(--text-sm);
+  color: var(--col-danger);
+}
+
+.login-error.is-visible { display: flex; }
+.login-error svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ── Aviso superadmin ──────────────────────────────────────── */
+.login-super-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--col-warning-bg);
+  border: 1px solid #f5d878;
+  border-radius: var(--r-md);
+  margin-bottom: var(--sp-6);
+  font-size: var(--text-sm);
+  color: var(--col-warning);
+}
+
+.login-super-warning svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+.login-super-warning p { margin: 0; line-height: 1.5; }
+
+/* ── Footer tarjeta ────────────────────────────────────────── */
+.login-card-footer {
+  padding: var(--sp-4) var(--sp-8) var(--sp-6);
+  border-top: 1px solid var(--col-gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.login-security-note {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-xs);
+  color: var(--col-gray-400);
+}
+
+.login-security-note svg {
+  width: 14px;
+  height: 14px;
+  color: var(--col-success);
+}
+
+.login-home-link {
+  font-size: var(--text-xs);
+  color: var(--col-blue-700);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--tr-fast);
+}
+
+.login-home-link:hover { color: var(--col-blue-800); text-decoration: underline; }
+
+/* ────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .login-panel-left {
+    display: none;
+  }
+
+  .login-panel-right {
+    padding: var(--sp-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .login-panel-right {
+    padding: var(--sp-4);
+    align-items: flex-start;
+    padding-top: var(--sp-8);
+  }
+
+  .login-form-card {
+    border-radius: var(--r-xl);
+  }
+
+  .login-card-header,
+  .login-panel {
+    padding-left: var(--sp-5);
+    padding-right: var(--sp-5);
+  }
+}

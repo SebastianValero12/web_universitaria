@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!--
+  REFERENCIA DE LAYOUT: Dashboard Base
+  Universidad de Pamplona SIU
+  Plantilla base para todos los dashboards con sidebar + topbar.
+  No se usa directamente — sirve de referencia estructural.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dashboard — Universidad de Pamplona SIU" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Dashboard — Unipamplona SIU</title>
+
+  <!-- Google Fonts: Montserrat + Lora -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Tokens y estilos base -->
+  <link rel="stylesheet" href="/src/styles/tokens/tokens.css" />
+  <link rel="stylesheet" href="/src/styles/base/base.css" />
+  <link rel="stylesheet" href="/src/styles/components/components.css" />
+
+  <!-- CSS específico del dashboard -->
+  <link rel="stylesheet" href="dashboard-base.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     LAYOUT PRINCIPAL: sidebar + contenido
+════════════════════════════════════════════════ -->
+<div class="app-layout" id="appLayout">
+
+  <!-- ── SIDEBAR ──────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" aria-label="Navegación principal">
+
+    <!-- Logo / marca -->
+    <div class="sidebar-brand">
+      <!-- Escudo SVG -->
+      <svg class="sidebar-brand__shield" width="32" height="36" viewBox="0 0 32 36" fill="none" aria-hidden="true">
+        <path d="M16 1 L31 7 V19 C31 27.5 24 33.5 16 35 C8 33.5 1 27.5 1 19 V7 Z"
+              fill="var(--color-red-600)" stroke="var(--color-white)" stroke-width="1.5"/>
+        <path d="M16 5 L27 10 V19 C27 25.5 22 30 16 31.5 C10 30 5 25.5 5 19 V10 Z"
+              fill="var(--color-blue-900)"/>
+        <text x="16" y="23" text-anchor="middle" font-size="12" font-weight="700"
+              fill="var(--color-white)" font-family="Montserrat, sans-serif">U</text>
+      </svg>
+      <div class="sidebar-brand__text">
+        <span class="sidebar-brand__name">Unipamplona</span>
+        <span class="sidebar-brand__sub">SIU</span>
+      </div>
+    </div>
+
+    <!-- Perfil compacto del usuario -->
+    <div class="sidebar-user">
+      <div class="avatar avatar--md avatar--red" id="sidebarAvatar">--</div>
+      <div class="sidebar-user__info">
+        <span class="sidebar-user__name" id="sidebarName">Cargando...</span>
+        <span class="sidebar-user__role badge badge--blue" id="sidebarRole">—</span>
+      </div>
+    </div>
+
+    <hr class="sidebar-divider" />
+
+    <!-- Navegación principal -->
+    <nav class="sidebar-nav" aria-label="Menú del dashboard">
+      <ul class="sidebar-nav__list" id="sidebarNavList">
+        <!--
+          Cada item sigue el patrón:
+          <li class="sidebar-nav__item">
+            <a href="#seccion" class="sidebar-nav__link [is-active]" data-section="seccion">
+              <span class="sidebar-nav__icon" aria-hidden="true">⬜</span>
+              Etiqueta
+              <span class="badge badge--red sidebar-nav__badge" style="display:none">0</span>
+            </a>
+          </li>
+        -->
+      </ul>
+    </nav>
+
+    <!-- Acciones al pie del sidebar -->
+    <div class="sidebar-footer">
+      <button class="sidebar-footer__btn" id="btnLogout" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Cerrar sesión
+      </button>
+    </div>
+
+  </aside><!-- /sidebar -->
+
+  <!-- ── CONTENIDO PRINCIPAL ──────────────────── -->
+  <div class="app-content" id="appContent">
+
+    <!-- TOPBAR -->
+    <header class="topbar" id="topbar">
+      <!-- Botón hamburguesa (visible en móvil) -->
+      <button class="topbar__menu-btn" id="sidebarToggle" type="button"
+              aria-label="Abrir menú" aria-expanded="false" aria-controls="sidebar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6"  x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <!-- Título de la sección activa -->
+      <h1 class="topbar__title" id="topbarTitle">Dashboard</h1>
+
+      <!-- Acciones del topbar -->
+      <div class="topbar__actions">
+        <!-- Fecha actual -->
+        <span class="topbar__date" id="topbarDate"></span>
+
+        <!-- Avatar con menú desplegable -->
+        <div class="topbar__avatar-wrap">
+          <div class="avatar avatar--sm avatar--red" id="topbarAvatar">--</div>
+        </div>
+      </div>
+    </header><!-- /topbar -->
+
+    <!-- ÁREA DE PÁGINA -->
+    <main class="page-wrap" id="pageWrap" role="main">
+
+      <!-- ── SECCIÓN EJEMPLO: inicio ──────────── -->
+      <section class="page-section is-active" id="sec-inicio" data-section="inicio">
+        <div class="page-header">
+          <div>
+            <h2 class="page-header__title">Bienvenido/a</h2>
+            <p class="page-header__sub">Resumen de tu actividad académica</p>
+          </div>
+        </div>
+
+        <!-- Grid de estadísticas -->
+        <div class="stats-grid" id="statsGrid">
+          <!-- Las stat-cards se insertan dinámicamente -->
+          <div class="stat-card skeleton">
+            <div class="skeleton-line skeleton-line--sm"></div>
+            <div class="skeleton-line skeleton-line--lg"></div>
+          </div>
+          <div class="stat-card skeleton">
+            <div class="skeleton-line skeleton-line--sm"></div>
+            <div class="skeleton-line skeleton-line--lg"></div>
+          </div>
+          <div class="stat-card skeleton">
+            <div class="skeleton-line skeleton-line--sm"></div>
+            <div class="skeleton-line skeleton-line--lg"></div>
+          </div>
+          <div class="stat-card skeleton">
+            <div class="skeleton-line skeleton-line--sm"></div>
+            <div class="skeleton-line skeleton-line--lg"></div>
+          </div>
+        </div><!-- /stats-grid -->
+
+      </section><!-- /sec-inicio -->
+
+    </main><!-- /page-wrap -->
+
+  </div><!-- /app-content -->
+
+</div><!-- /app-layout -->
+
+<!-- Overlay para sidebar en móvil -->
+<div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+
+<!-- Scripts globales -->
+<script src="/src/services/services.js"></script>
+<script src="/src/layouts/layout.js"></script>
+<script src="/src/router/router.js"></script>
+
+<!-- Script del dashboard específico -->
+<script src="dashboard.js"></script>
+
+</body>
+</html>

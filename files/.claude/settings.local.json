@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell Compress-Archive -Path unipamplona-siu -DestinationPath unipamplona-siu.zip -Force)",
+      "Bash(powershell -Command ':*)",
+      "Bash(powershell -Command 'Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip = [System.IO.Compression.ZipFile]::OpenRead\\('\\\\''unipamplona-siu.zip'\\\\''\\); $zip.Entries | Select-Object -ExpandProperty FullName; Write-Host \"Total: $\\($zip.Entries.Count\\) archivos\"; $zip.Dispose\\(\\)')"
+    ]
+  }
+}

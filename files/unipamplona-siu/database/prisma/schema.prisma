@@ -1,0 +1,472 @@
+// ============================================================
+// SCHEMA PRISMA — Universidad de Pamplona SIU
+// Base de datos PostgreSQL
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── ENUMERACIONES ───────────────────────────────────────────
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  SUPERUSER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum EnrollmentStatus {
+  ENROLLED
+  PASSED
+  FAILED
+  WITHDRAWN
+  CANCELLED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
+  LATE
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum SemesterType {
+  FIRST
+  SECOND
+  SUMMER
+}
+
+enum RequestStatus {
+  PENDING
+  IN_PROGRESS
+  RESOLVED
+  REJECTED
+  CLOSED
+}
+
+// ─── USUARIO BASE ──────────────────────────────────────────────
+
+model User {
+  id           Int        @id @default(autoincrement())
+  code         String     @unique
+  firstName    String
+  lastName     String
+  email        String     @unique
+  passwordHash String
+  role         Role
+  status       UserStatus @default(ACTIVE)
+  lastLogin    DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  student       Student?
+  teacher       Teacher?
+  admin         Admin?
+  announcements Announcement[]
+  auditLogs     AuditLog[]
+
+  @@index([email])
+  @@index([code])
+  @@index([role])
+  @@index([status])
+  @@map("users")
+}
+
+// ─── PERFIL: ESTUDIANTE ────────────────────────────────────────
+
+model Student {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique
+  programId       Int?
+  currentSemester Int      @default(1)
+  enrollmentYear  Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  program     Program?     @relation(fields: [programId], references: [id])
+  enrollments Enrollment[]
+
+  @@index([userId])
+  @@index([programId])
+  @@map("students")
+}
+
+// ─── PERFIL: DOCENTE ───────────────────────────────────────────
+
+model Teacher {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @unique
+  departmentId   Int?
+  title          String?
+  specialization String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  department   Department?   @relation(fields: [departmentId], references: [id])
+  courseGroups CourseGroup[]
+
+  @@index([userId])
+  @@map("teachers")
+}
+
+// ─── PERFIL: ADMINISTRADOR ────────────────────────────────────
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  position  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("admins")
+}
+
+// ─── FACULTAD ──────────────────────────────────────────────────
+
+model Faculty {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  code        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  departments Department[]
+
+  @@map("faculties")
+}
+
+// ─── DEPARTAMENTO ──────────────────────────────────────────────
+
+model Department {
+  id          Int      @id @default(autoincrement())
+  name        String
+  code        String   @unique
+  facultyId   Int
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  faculty  Faculty   @relation(fields: [facultyId], references: [id])
+  programs Program[]
+  teachers Teacher[]
+
+  @@index([facultyId])
+  @@map("departments")
+}
+
+// ─── PROGRAMA ACADÉMICO ────────────────────────────────────────
+
+model Program {
+  id                Int      @id @default(autoincrement())
+  name              String
+  code              String   @unique
+  departmentId      Int
+  totalCredits      Int      @default(160)
+  durationSemesters Int      @default(10)
+  modality          String   @default("PRESENCIAL")
+  description       String?
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  department     Department      @relation(fields: [departmentId], references: [id])
+  students       Student[]
+  programCourses ProgramCourse[]
+
+  @@index([departmentId])
+  @@map("programs")
+}
+
+// ─── CURSO ─────────────────────────────────────────────────────
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  credits     Int      @default(3)
+  hours       Int      @default(3)
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  courseGroups   CourseGroup[]
+  programCourses ProgramCourse[]
+
+  @@index([code])
+  @@map("courses")
+}
+
+// ─── RELACIÓN PROGRAMA-CURSO ────────────────────────────────────
+
+model ProgramCourse {
+  programId  Int
+  courseId   Int
+  semester   Int
+  isRequired Boolean @default(true)
+
+  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@id([programId, courseId])
+  @@map("program_courses")
+}
+
+// ─── PERÍODO ACADÉMICO ─────────────────────────────────────────
+
+model AcademicPeriod {
+  id        Int          @id @default(autoincrement())
+  year      Int
+  semester  SemesterType
+  label     String
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean      @default(false)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  courseGroups CourseGroup[]
+  enrollments  Enrollment[]
+
+  @@unique([year, semester])
+  @@index([isActive])
+  @@map("academic_periods")
+}
+
+// ─── EDIFICIO ──────────────────────────────────────────────────
+
+model Building {
+  id       Int      @id @default(autoincrement())
+  name     String
+  code     String   @unique
+  location String?
+  createdAt DateTime @default(now())
+
+  classrooms Classroom[]
+
+  @@map("buildings")
+}
+
+// ─── AULA ──────────────────────────────────────────────────────
+
+model Classroom {
+  id         Int      @id @default(autoincrement())
+  name       String
+  code       String   @unique
+  buildingId Int
+  capacity   Int      @default(30)
+  type       String   @default("TEORIA")
+  createdAt  DateTime @default(now())
+
+  building  Building   @relation(fields: [buildingId], references: [id])
+  schedules Schedule[]
+
+  @@index([buildingId])
+  @@map("classrooms")
+}
+
+// ─── GRUPO DE CURSO ────────────────────────────────────────────
+
+model CourseGroup {
+  id               Int      @id @default(autoincrement())
+  courseId         Int
+  teacherId        Int?
+  academicPeriodId Int
+  groupCode        String
+  maxStudents      Int      @default(35)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  course         Course         @relation(fields: [courseId], references: [id])
+  teacher        Teacher?       @relation(fields: [teacherId], references: [id])
+  academicPeriod AcademicPeriod @relation(fields: [academicPeriodId], references: [id])
+  schedules      Schedule[]
+  enrollments    Enrollment[]
+
+  @@unique([courseId, academicPeriodId, groupCode])
+  @@index([courseId])
+  @@index([teacherId])
+  @@index([academicPeriodId])
+  @@map("course_groups")
+}
+
+// ─── HORARIO ───────────────────────────────────────────────────
+
+model Schedule {
+  id            Int       @id @default(autoincrement())
+  courseGroupId Int
+  classroomId   Int?
+  dayOfWeek     DayOfWeek
+  startTime     String
+  endTime       String
+  createdAt     DateTime  @default(now())
+
+  courseGroup CourseGroup @relation(fields: [courseGroupId], references: [id], onDelete: Cascade)
+  classroom   Classroom?  @relation(fields: [classroomId], references: [id])
+
+  @@index([courseGroupId])
+  @@map("schedules")
+}
+
+// ─── INSCRIPCIÓN ───────────────────────────────────────────────
+
+model Enrollment {
+  id               Int              @id @default(autoincrement())
+  studentId        Int
+  courseGroupId    Int
+  academicPeriodId Int?
+  status           EnrollmentStatus @default(ENROLLED)
+  enrolledAt       DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  student        Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  courseGroup    CourseGroup     @relation(fields: [courseGroupId], references: [id])
+  academicPeriod AcademicPeriod? @relation(fields: [academicPeriodId], references: [id])
+  grades         Grade[]
+  attendances    Attendance[]
+
+  @@unique([studentId, courseGroupId])
+  @@index([studentId])
+  @@index([courseGroupId])
+  @@map("enrollments")
+}
+
+// ─── CALIFICACIÓN ──────────────────────────────────────────────
+
+model Grade {
+  id           Int      @id @default(autoincrement())
+  enrollmentId Int      @unique
+  score        Decimal  @db.Decimal(4, 2)
+  remarks      String?
+  gradedAt     DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@index([enrollmentId])
+  @@map("grades")
+}
+
+// ─── ASISTENCIA ────────────────────────────────────────────────
+
+model Attendance {
+  id           Int              @id @default(autoincrement())
+  enrollmentId Int
+  date         DateTime
+  status       AttendanceStatus @default(PRESENT)
+  remarks      String?
+  createdAt    DateTime         @default(now())
+
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, date])
+  @@index([enrollmentId])
+  @@map("attendances")
+}
+
+// ─── AVISO / ANUNCIO ───────────────────────────────────────────
+
+model Announcement {
+  id          Int       @id @default(autoincrement())
+  title       String
+  body        String
+  authorId    Int
+  priority    String    @default("NORMAL")
+  isActive    Boolean   @default(true)
+  publishedAt DateTime  @default(now())
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  author User @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
+  @@index([isActive])
+  @@map("announcements")
+}
+
+// ─── PQRS ──────────────────────────────────────────────────────
+
+model PQRS {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  type        String
+  subject     String
+  description String
+  status      RequestStatus @default(PENDING)
+  response    String?
+  resolvedAt  DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@map("pqrs")
+}
+
+// ─── CERTIFICADO ───────────────────────────────────────────────
+
+model Certificate {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  type        String
+  status      String    @default("PENDING")
+  fileUrl     String?
+  requestedAt DateTime  @default(now())
+  issuedAt    DateTime?
+  expiresAt   DateTime?
+
+  @@index([userId])
+  @@map("certificates")
+}
+
+// ─── LOG DE AUDITORÍA ──────────────────────────────────────────
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  userName  String?
+  action    String
+  entity    String?
+  entityId  String?
+  detail    String?
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

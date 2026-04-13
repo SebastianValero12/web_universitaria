@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Universidad de Pamplona — Portal institucional. Programas académicos, noticias, investigación y servicios universitarios en Norte de Santander, Colombia.">
+  <meta name="keywords" content="Universidad de Pamplona, Unipamplona, educación superior, Colombia, Norte de Santander">
+  <meta name="author" content="Universidad de Pamplona">
+  <title>Universidad de Pamplona — Portal Institucional</title>
+
+  <!-- Google Fonts: Montserrat + Lora -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="src/styles/tokens/tokens.css">
+  <link rel="stylesheet" href="src/styles/base/base.css">
+  <link rel="stylesheet" href="src/styles/components/components.css">
+  <link rel="stylesheet" href="src/styles/components/login-drawer.css">
+  <link rel="stylesheet" href="src/layouts/layout.css">
+  <link rel="stylesheet" href="src/pages/index.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NAVBAR (inyectado por layout.js)
+       ══════════════════════════════════════════════════════ -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LOGIN DRAWER
+       ══════════════════════════════════════════════════════ -->
+  <div id="login-overlay" class="overlay" aria-hidden="true"></div>
+
+  <aside id="login-drawer" class="login-drawer" role="dialog" aria-modal="true" aria-label="Acceso al portal">
+    <div class="drawer-header">
+      <h2 class="drawer-title">Acceso al Portal</h2>
+      <button class="drawer-close btn btn-ghost btn-icon" aria-label="Cerrar panel" id="drawer-close-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="drawer-tabs">
+      <button class="drawer-tab is-active" data-tab="student">Estudiante</button>
+      <button class="drawer-tab" data-tab="staff">Administrativo / Docente</button>
+    </div>
+
+    <div class="drawer-body">
+
+      <!-- Panel Estudiante -->
+      <div class="drawer-panel is-active" data-panel="student">
+        <div class="drawer-form-header mt-6">
+          <div class="drawer-form-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <h3 class="drawer-form-title">Portal Estudiantil</h3>
+          <p class="drawer-form-sub">Ingresa con tu correo institucional y contraseña</p>
+        </div>
+
+        <div class="drawer-error" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span class="drawer-error-msg">Error al iniciar sesión.</span>
+        </div>
+
+        <form data-drawer-form="student" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="student-email">Correo institucional <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input id="student-email" type="email" class="form-control" placeholder="usuario@unipamplona.edu.co" autocomplete="email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="student-password">Contraseña <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input id="student-password" type="password" class="form-control" placeholder="Tu contraseña" autocomplete="current-password" required data-type="password">
+              <div class="input-suffix">
+                <button type="button" data-pwd-toggle="student-password" aria-label="Mostrar/ocultar contraseña">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mb-6">
+            <label class="form-check">
+              <input type="checkbox" name="remember">
+              <span class="form-check-label">Recordarme</span>
+            </label>
+            <a href="#" class="text-size-sm text-red fw-600">¿Olvidé mi contraseña?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+            Ingresar al portal
+          </button>
+        </form>
+      </div>
+
+      <!-- Panel Staff -->
+      <div class="drawer-panel" data-panel="staff">
+        <div class="drawer-form-header mt-6">
+          <div class="drawer-form-icon red-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="drawer-form-title">Portal Institucional</h3>
+          <p class="drawer-form-sub">Acceso para docentes y personal administrativo</p>
+        </div>
+
+        <div class="drawer-error" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span class="drawer-error-msg">Error al iniciar sesión.</span>
+        </div>
+
+        <form data-drawer-form="staff" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="staff-email">Correo institucional <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input id="staff-email" type="email" class="form-control" placeholder="usuario@unipamplona.edu.co" autocomplete="email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="staff-password">Contraseña <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input id="staff-password" type="password" class="form-control" placeholder="Tu contraseña" autocomplete="current-password" required data-type="password">
+              <div class="input-suffix">
+                <button type="button" data-pwd-toggle="staff-password" aria-label="Mostrar/ocultar contraseña">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mb-6">
+            <label class="form-check">
+              <input type="checkbox" name="remember-staff">
+              <span class="form-check-label">Recordarme</span>
+            </label>
+            <a href="/src/pages/auth/admin-login.html" class="text-size-sm text-red fw-600">Acceso especial</a>
+          </div>
+
+          <button type="submit" class="btn btn-secondary btn-full btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+            Ingresar al portal
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <p class="drawer-footer-text">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        Conexión segura SSL · Universidad de Pamplona &copy; 2025
+      </p>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO — SLIDESHOW
+       ══════════════════════════════════════════════════════ -->
+  <section class="hero" id="inicio" aria-label="Banner principal">
+    <!-- Slides -->
+    <div class="hero-slides" id="hero-slides" aria-live="polite" aria-atomic="false">
+
+      <div class="hero-slide is-active" role="img" aria-label="Campus universitario principal" style="background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80&auto=format&fit=crop')"></div>
+
+      <div class="hero-slide" role="img" aria-label="Estudiantes en campus" style="background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80&auto=format&fit=crop')"></div>
+
+      <div class="hero-slide" role="img" aria-label="Biblioteca universitaria" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&q=80&auto=format&fit=crop')"></div>
+    </div>
+
+    <!-- Gradiente overlay -->
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <!-- Contenido del hero -->
+    <div class="hero-content container">
+      <div class="hero-text" data-reveal data-delay="100">
+        <span class="hero-eyebrow">Acreditada de Alta Calidad · 2024–2030</span>
+        <h1 class="hero-title">
+          <em>Transformamos vidas</em><br>
+          a través del conocimiento
+        </h1>
+        <p class="hero-subtitle">
+          Universidad de Pamplona, 55 años formando profesionales íntegros,
+          líderes del desarrollo regional y nacional de Colombia.
+        </p>
+        <div class="hero-actions" data-reveal data-delay="300">
+          <button class="btn btn-primary btn-xl" id="hero-login-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Acceder al portal
+          </button>
+          <a href="#programas" class="btn btn-outline-hero btn-xl">
+            Ver programas
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tarjeta de acceso rápido (vidrio esmerilado) -->
+      <div class="hero-access-card" data-reveal data-delay="400">
+        <h3 class="hero-card-title">Acceso rápido</h3>
+        <div class="hero-card-btns">
+          <button class="hero-card-btn" onclick="LoginDrawer.open('student')">
+            <div class="hero-card-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </div>
+            <span>Estudiantes</span>
+          </button>
+          <button class="hero-card-btn" onclick="LoginDrawer.open('staff')">
+            <div class="hero-card-icon red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <span>Docentes</span>
+          </button>
+          <a href="/src/pages/auth/admin-login.html" class="hero-card-btn">
+            <div class="hero-card-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+              </svg>
+            </div>
+            <span>Administrativo</span>
+          </a>
+        </div>
+        <p class="hero-card-note">¿Problemas de acceso? <a href="#contacto">Soporte TI</a></p>
+      </div>
+
+      <!-- Stats en vidrio esmerilado -->
+      <div class="hero-stats" data-reveal data-delay="500">
+        <div class="hero-stat">
+          <span class="hero-stat-num">4.200<sup>+</sup></span>
+          <span class="hero-stat-lbl">Estudiantes</span>
+        </div>
+        <div class="hero-stat-sep" aria-hidden="true"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">68</span>
+          <span class="hero-stat-lbl">Programas</span>
+        </div>
+        <div class="hero-stat-sep" aria-hidden="true"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">55</span>
+          <span class="hero-stat-lbl">Años</span>
+        </div>
+        <div class="hero-stat-sep" aria-hidden="true"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">3</span>
+          <span class="hero-stat-lbl">Sedes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controles del slideshow -->
+    <div class="hero-controls" aria-label="Controles del slideshow">
+      <button class="hero-prev" id="hero-prev" aria-label="Diapositiva anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <div class="hero-dots" id="hero-dots" role="tablist" aria-label="Diapositivas">
+        <button class="hero-dot is-active" role="tab" aria-selected="true"  aria-label="Diapositiva 1" data-slide="0"></button>
+        <button class="hero-dot" role="tab" aria-selected="false" aria-label="Diapositiva 2" data-slide="1"></button>
+        <button class="hero-dot" role="tab" aria-selected="false" aria-label="Diapositiva 3" data-slide="2"></button>
+      </div>
+      <button class="hero-next" id="hero-next" aria-label="Siguiente diapositiva">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       STATS STRIP (banda roja)
+       ══════════════════════════════════════════════════════ -->
+  <section class="stats-strip" aria-label="Cifras institucionales">
+    <div class="container">
+      <div class="stats-strip-grid">
+        <div class="strip-stat" data-reveal>
+          <span class="strip-num">4.200<sup>+</sup></span>
+          <span class="strip-lbl">Estudiantes activos</span>
+        </div>
+        <div class="strip-sep" aria-hidden="true"></div>
+        <div class="strip-stat" data-reveal data-delay="100">
+          <span class="strip-num">68</span>
+          <span class="strip-lbl">Programas académicos</span>
+        </div>
+        <div class="strip-sep" aria-hidden="true"></div>
+        <div class="strip-stat" data-reveal data-delay="200">
+          <span class="strip-num">55</span>
+          <span class="strip-lbl">Años de excelencia</span>
+        </div>
+        <div class="strip-sep" aria-hidden="true"></div>
+        <div class="strip-stat" data-reveal data-delay="300">
+          <span class="strip-num">3</span>
+          <span class="strip-lbl">Sedes regionales</span>
+        </div>
+        <div class="strip-sep" aria-hidden="true"></div>
+        <div class="strip-stat" data-reveal data-delay="400">
+          <span class="strip-num">Acreditada</span>
+          <span class="strip-lbl">Alta calidad 2024–2030</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PROGRAMAS
+       ══════════════════════════════════════════════════════ -->
+  <section class="programs-section" id="programas" aria-labelledby="programs-title">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <span class="section-tag">Oferta académica</span>
+        <h2 class="section-title" id="programs-title">Nuestros programas</h2>
+        <p class="section-sub">68 programas de pregrado y posgrado para tu formación integral</p>
+      </div>
+
+      <!-- Filtros -->
+      <div class="programs-filters" data-reveal data-delay="100" role="group" aria-label="Filtros de programas">
+        <button class="chip is-active" data-filter="all">Todos</button>
+        <button class="chip" data-filter="pregrado">Pregrado</button>
+        <button class="chip" data-filter="posgrado">Posgrado</button>
+        <button class="chip" data-filter="distancia">Distancia</button>
+      </div>
+
+      <div class="programs-grid" data-reveal data-delay="200">
+
+        <!-- Facultad de Ingenierías -->
+        <article class="program-card" data-category="pregrado">
+          <div class="program-card-img" style="background: linear-gradient(135deg, var(--col-blue-800), var(--col-blue-500));" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2" aria-hidden="true">
+              <rect x="6" y="6" width="36" height="36" rx="4"/>
+              <path d="M16 24h4l4-8 4 16 4-8h4"/>
+            </svg>
+          </div>
+          <div class="program-card-body">
+            <span class="badge badge-blue badge-no-dot">Pregrado</span>
+            <h3 class="program-card-name">Ingeniería de Sistemas</h3>
+            <p class="program-card-desc">Formación en desarrollo de software, redes, inteligencia artificial y gestión tecnológica.</p>
+            <div class="program-card-meta">
+              <span>10 semestres</span>
+              <span>Presencial</span>
+              <span>Pamplona</span>
+            </div>
+          </div>
+          <div class="program-card-footer">
+            <a href="#" class="btn btn-outline btn-sm">Ver más</a>
+            <a href="#" class="btn btn-primary btn-sm">Inscribirse</a>
+          </div>
+        </article>
+
+        <!-- Facultad de Ciencias Básicas -->
+        <article class="program-card" data-category="pregrado">
+          <div class="program-card-img" style="background: linear-gradient(135deg, var(--col-red-800), var(--col-red-500));" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2" aria-hidden="true">
+              <path d="M24 4 L8 44 L40 44 Z"/>
+              <circle cx="24" cy="24" r="6"/>
+            </svg>
+          </div>
+          <div class="program-card-body">
+            <span class="badge badge-red badge-no-dot">Pregrado</span>
+            <h3 class="program-card-name">Matemáticas</h3>
+            <p class="program-card-desc">Formación sólida en álgebra, cálculo, estadística y matemática aplicada a la ciencia y la industria.</p>
+            <div class="program-card-meta">
+              <span>10 semestres</span>
+              <span>Presencial</span>
+              <span>Pamplona</span>
+            </div>
+          </div>
+          <div class="program-card-footer">
+            <a href="#" class="btn btn-outline btn-sm">Ver más</a>
+            <a href="#" class="btn btn-primary btn-sm">Inscribirse</a>
+          </div>
+        </article>
+
+        <!-- Ciencias Económicas -->
+        <article class="program-card" data-category="pregrado">
+          <div class="program-card-img" style="background: linear-gradient(135deg, #1a6b3a, #3aaf6e);" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2" aria-hidden="true">
+              <path d="M12 36 L12 20 L20 20 L20 36"/>
+              <path d="M20 36 L20 12 L28 12 L28 36"/>
+              <path d="M28 36 L28 26 L36 26 L36 36"/>
+              <line x1="8" y1="36" x2="40" y2="36"/>
+            </svg>
+          </div>
+          <div class="program-card-body">
+            <span class="badge badge-green badge-no-dot">Pregrado</span>
+            <h3 class="program-card-name">Administración de Empresas</h3>
+            <p class="program-card-desc">Liderazgo, gestión organizacional, finanzas y emprendimiento para el contexto empresarial colombiano.</p>
+            <div class="program-card-meta">
+              <span>8 semestres</span>
+              <span>Presencial / Distancia</span>
+              <span>Pamplona</span>
+            </div>
+          </div>
+          <div class="program-card-footer">
+            <a href="#" class="btn btn-outline btn-sm">Ver más</a>
+            <a href="#" class="btn btn-primary btn-sm">Inscribirse</a>
+          </div>
+        </article>
+
+        <!-- Posgrado -->
+        <article class="program-card" data-category="posgrado">
+          <div class="program-card-img" style="background: linear-gradient(135deg, #4c1d95, #7c3aed);" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2" aria-hidden="true">
+              <path d="M24 6L6 18l18 12 18-12z"/>
+              <path d="M6 18v12l18 12 18-12V18"/>
+            </svg>
+          </div>
+          <div class="program-card-body">
+            <span class="badge badge-no-dot" style="background: #ede9fe; color: #4c1d95;">Posgrado</span>
+            <h3 class="program-card-name">Maestría en Educación</h3>
+            <p class="program-card-desc">Investigación educativa, pedagogía avanzada y gestión curricular para docentes e investigadores.</p>
+            <div class="program-card-meta">
+              <span>4 semestres</span>
+              <span>Presencial</span>
+              <span>Pamplona</span>
+            </div>
+          </div>
+          <div class="program-card-footer">
+            <a href="#" class="btn btn-outline btn-sm">Ver más</a>
+            <a href="#" class="btn btn-primary btn-sm">Inscribirse</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="text-center mt-10" data-reveal data-delay="300">
+        <a href="#" class="btn btn-outline btn-lg">
+          Ver todos los programas
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NOTICIAS
+       ══════════════════════════════════════════════════════ -->
+  <section class="news-section" id="noticias" aria-labelledby="news-title">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <span class="section-tag">Actualidad</span>
+        <h2 class="section-title" id="news-title">Noticias y eventos</h2>
+        <p class="section-sub">Mantente al día con la vida universitaria</p>
+      </div>
+
+      <div class="news-grid" data-reveal data-delay="100">
+
+        <!-- Noticia destacada -->
+        <article class="news-featured">
+          <div class="news-featured-img" style="background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80&auto=format&fit=crop');" role="img" aria-label="Evento universitario"></div>
+          <div class="news-featured-body">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="badge badge-red badge-no-dot">Acreditación</span>
+              <span class="text-size-sm text-gray">15 enero 2025</span>
+            </div>
+            <h3 class="news-featured-title">Unipamplona renueva su Acreditación Institucional de Alta Calidad por 6 años</h3>
+            <p class="news-featured-text">El Ministerio de Educación Nacional reconoció los avances en investigación, bienestar estudiantil y proyección social de nuestra institución.</p>
+            <a href="#" class="btn btn-primary btn-sm mt-4">Leer más</a>
+          </div>
+        </article>
+
+        <!-- Noticias secundarias -->
+        <div class="news-list">
+          <article class="news-card">
+            <div class="news-card-img" style="background-image: url('https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&q=80&auto=format&fit=crop');" role="img" aria-label="Biblioteca"></div>
+            <div class="news-card-body">
+              <span class="badge badge-blue badge-no-dot mb-2">Académico</span>
+              <h4 class="news-card-title">Apertura de inscripciones periodo 2025-I</h4>
+              <p class="text-size-sm text-gray">10 enero 2025</p>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <div class="news-card-img" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&q=80&auto=format&fit=crop');" role="img" aria-label="Investigadores"></div>
+            <div class="news-card-body">
+              <span class="badge badge-green badge-no-dot mb-2">Investigación</span>
+              <h4 class="news-card-title">Grupo de investigación GISIC publicó artículo en revista Scopus Q1</h4>
+              <p class="text-size-sm text-gray">8 enero 2025</p>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <div class="news-card-img" style="background-image: url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=400&q=80&auto=format&fit=crop');" role="img" aria-label="Deportes"></div>
+            <div class="news-card-body">
+              <span class="badge badge-amber badge-no-dot mb-2">Bienestar</span>
+              <h4 class="news-card-title">Juegos deportivos interfacultades primer semestre 2025</h4>
+              <p class="text-size-sm text-gray">5 enero 2025</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="text-center mt-10" data-reveal data-delay="200">
+        <a href="#" class="btn btn-outline btn-lg">Ver todas las noticias</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INVESTIGACIÓN
+       ══════════════════════════════════════════════════════ -->
+  <section class="research-section" id="investigacion" aria-labelledby="research-title">
+    <div class="research-overlay" aria-hidden="true"></div>
+    <div class="container research-inner">
+      <div class="research-content" data-reveal>
+        <span class="section-tag section-tag-light">Investigación y extensión</span>
+        <h2 class="section-title text-white" id="research-title">Ciencia para transformar Colombia</h2>
+        <p class="section-sub" style="color: rgba(255,255,255,.7);">
+          Nuestros grupos de investigación trabajan en áreas estratégicas que contribuyen
+          al desarrollo sostenible de la región y el país.
+        </p>
+        <div class="research-stats" data-reveal data-delay="200">
+          <div class="research-stat">
+            <span class="research-stat-num">12</span>
+            <span class="research-stat-lbl">Grupos categorizados MinCiencias</span>
+          </div>
+          <div class="research-stat">
+            <span class="research-stat-num">148</span>
+            <span class="research-stat-lbl">Publicaciones indexadas 2024</span>
+          </div>
+          <div class="research-stat">
+            <span class="research-stat-num">8</span>
+            <span class="research-stat-lbl">Proyectos activos con financiación</span>
+          </div>
+        </div>
+        <a href="#" class="btn btn-white btn-lg mt-8">Conocer nuestra investigación</a>
+      </div>
+      <div class="research-cards" data-reveal data-delay="300">
+        <div class="research-card">
+          <div class="research-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="16" cy="16" r="12"/>
+              <path d="M12 16h8M16 12v8"/>
+            </svg>
+          </div>
+          <h4>Biotecnología y Medioambiente</h4>
+          <p>Investigación en biodiversidad y recursos naturales del Norte de Santander.</p>
+        </div>
+        <div class="research-card">
+          <div class="research-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="4" y="6" width="24" height="20" rx="3"/>
+              <path d="M10 12h12M10 17h8M10 22h5"/>
+            </svg>
+          </div>
+          <h4>Tecnologías de la Información</h4>
+          <p>IA, ciberseguridad, software educativo y transformación digital.</p>
+        </div>
+        <div class="research-card">
+          <div class="research-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M16 4 L28 10 L28 22 L16 28 L4 22 L4 10 Z"/>
+            </svg>
+          </div>
+          <h4>Ciencias Sociales y Educación</h4>
+          <p>Pedagogía crítica, inclusión educativa y desarrollo comunitario.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CONTACTO
+       ══════════════════════════════════════════════════════ -->
+  <section class="contact-section" id="contacto" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <span class="section-tag">Contáctanos</span>
+        <h2 class="section-title" id="contact-title">¿Cómo podemos ayudarte?</h2>
+        <p class="section-sub">Estamos aquí para orientarte en tu camino universitario</p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Formulario -->
+        <div class="contact-form-wrap" data-reveal data-delay="100">
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="grid-2 gap-4">
+              <div class="form-group">
+                <label class="form-label" for="contact-name">Nombre completo <span class="required">*</span></label>
+                <input id="contact-name" type="text" class="form-control" placeholder="Tu nombre" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-email">Correo electrónico <span class="required">*</span></label>
+                <input id="contact-email" type="email" class="form-control" placeholder="tu@email.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-subject">Asunto <span class="required">*</span></label>
+              <select id="contact-subject" class="form-control" required>
+                <option value="">Selecciona un asunto</option>
+                <option>Información sobre programas académicos</option>
+                <option>Proceso de admisiones</option>
+                <option>Becas y financiación</option>
+                <option>Soporte técnico SIU</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-message">Mensaje <span class="required">*</span></label>
+              <textarea id="contact-message" class="form-control" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-full">
+              Enviar mensaje
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Info de contacto -->
+        <div class="contact-info" data-reveal data-delay="200">
+          <h3 class="contact-info-title">Información de contacto</h3>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Sede Principal</strong><br>
+              <span>Ciudadela Universitaria, Pamplona</span><br>
+              <span>Norte de Santander, Colombia</span>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Teléfonos</strong><br>
+              <span>(607) 568 5303</span><br>
+              <span>Línea gratuita: 018000 182020</span>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Correo electrónico</strong><br>
+              <span>info@unipamplona.edu.co</span><br>
+              <span>siu@unipamplona.edu.co (soporte)</span>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Horario de atención</strong><br>
+              <span>Lunes a viernes: 7:00 a.m. – 12:00 p.m.</span><br>
+              <span>2:00 p.m. – 6:00 p.m.</span>
+            </div>
+          </div>
+
+          <div class="contact-map" aria-label="Mapa de ubicación">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.7!2d-72.6487!3d7.3707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMjInMTQuNSJOIDcy8KwzOCc1NS4zIlc!5e0!3m2!1ses!2sco!4v1640000000000"
+              width="100%" height="200" style="border:0; border-radius: var(--r-lg);" allowfullscreen="" loading="lazy"
+              title="Mapa de la Universidad de Pamplona">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER (inyectado por layout.js)
+       ══════════════════════════════════════════════════════ -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container" role="live" aria-live="polite" aria-label="Notificaciones"></div>
+
+  <!-- Scripts -->
+  <script src="src/services/services.js"></script>
+  <script src="src/router/router.js"></script>
+  <script src="src/layouts/layout.js"></script>
+  <script src="src/pages/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Acceso administrativo y docente — Universidad de Pamplona SIU">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Acceso Institucional — Universidad de Pamplona SIU</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="../../styles/tokens/tokens.css">
+  <link rel="stylesheet" href="../../styles/base/base.css">
+  <link rel="stylesheet" href="../../styles/components/components.css">
+  <link rel="stylesheet" href="admin-login.css">
+</head>
+<body class="admin-login-body">
+
+  <div class="admin-login-layout">
+
+    <!-- ═══════════════════════════════════════════════════
+         PANEL IZQUIERDO (decorativo)
+         ═════════════════════════════════════════════════ -->
+    <aside class="login-panel-left" aria-hidden="true">
+      <div class="login-panel-bg" aria-hidden="true"></div>
+
+      <!-- Logo -->
+      <div class="login-left-brand">
+        <svg viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 2L4 8v16c0 10 7.2 19.4 16 22 8.8-2.6 16-12 16-22V8L20 2z" fill="#003366"/>
+          <path d="M20 6L7 11v13c0 8 5.8 15.6 13 17.6 7.2-2 13-9.6 13-17.6V11L20 6z" fill="#990000"/>
+          <path d="M20 10l-10 4v10c0 6 3.8 11.4 10 13.2 6.2-1.8 10-7.2 10-13.2V14L20 10z" fill="white"/>
+          <text x="20" y="27" text-anchor="middle" font-family="Montserrat" font-size="8" font-weight="800" fill="#003366">UP</text>
+        </svg>
+        <div>
+          <span class="login-left-name">Universidad de Pamplona</span>
+          <span class="login-left-sub">Sistema de Información Universitaria</span>
+        </div>
+      </div>
+
+      <!-- Título decorativo -->
+      <div class="login-left-content">
+        <h1 class="login-left-title">
+          Portal<br>
+          <em>Institucional</em>
+        </h1>
+        <p class="login-left-desc">
+          Área de acceso restringido para personal docente,
+          administrativo y superadministradores del SIU.
+        </p>
+
+        <!-- Stats decorativos -->
+        <div class="login-left-stats">
+          <div class="login-left-stat">
+            <span class="login-left-stat-num">4.200+</span>
+            <span class="login-left-stat-lbl">Estudiantes</span>
+          </div>
+          <div class="login-left-stat">
+            <span class="login-left-stat-num">280+</span>
+            <span class="login-left-stat-lbl">Docentes</span>
+          </div>
+          <div class="login-left-stat">
+            <span class="login-left-stat-num">68</span>
+            <span class="login-left-stat-lbl">Programas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aviso de seguridad -->
+      <div class="login-left-security">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <p>Acceso protegido con autenticación JWT y cifrado SSL. Solo personal autorizado de la Universidad de Pamplona.</p>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════
+         PANEL DERECHO (formulario)
+         ═════════════════════════════════════════════════ -->
+    <main class="login-panel-right" id="main-content">
+      <div class="login-form-card">
+
+        <!-- Cabecera -->
+        <div class="login-card-header">
+          <a href="/index.html" class="login-back-link" aria-label="Volver al inicio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            Volver al inicio
+          </a>
+          <h2 class="login-card-title">Iniciar sesión</h2>
+          <p class="login-card-sub">Selecciona tu tipo de acceso</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="login-tabs" role="tablist" aria-label="Tipo de acceso">
+          <button class="login-tab is-active" data-tab="staff" role="tab" aria-selected="true" aria-controls="panel-staff" id="tab-staff">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+            </svg>
+            Administrativo / Docente
+          </button>
+          <button class="login-tab" data-tab="super" role="tab" aria-selected="false" aria-controls="panel-super" id="tab-super">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            Superadministrador
+          </button>
+        </div>
+
+        <!-- Panel Staff -->
+        <div class="login-panel is-active" id="panel-staff" role="tabpanel" aria-labelledby="tab-staff">
+          <div class="login-error" id="staff-error" role="alert" aria-live="assertive">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span id="staff-error-msg">Error al iniciar sesión.</span>
+          </div>
+
+          <form id="staff-form" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="staff-email-input">Correo institucional <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <input id="staff-email-input" type="email" class="form-control" placeholder="usuario@unipamplona.edu.co" autocomplete="email" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="staff-pwd-input">Contraseña <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <input id="staff-pwd-input" type="password" class="form-control" placeholder="Tu contraseña" autocomplete="current-password" required>
+                <div class="input-suffix">
+                  <button type="button" id="staff-pwd-toggle" aria-label="Mostrar/ocultar contraseña">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mb-6">
+              <label class="form-check">
+                <input type="checkbox" name="remember-staff">
+                <span class="form-check-label">Recordarme</span>
+              </label>
+              <a href="#" class="text-size-sm text-red fw-600">¿Olvidé mi contraseña?</a>
+            </div>
+
+            <button type="submit" class="btn btn-secondary btn-full btn-lg" id="staff-submit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                <polyline points="10 17 15 12 10 7"/>
+                <line x1="15" y1="12" x2="3" y2="12"/>
+              </svg>
+              Ingresar al portal
+            </button>
+          </form>
+        </div>
+
+        <!-- Panel Superadmin -->
+        <div class="login-panel" id="panel-super" role="tabpanel" aria-labelledby="tab-super">
+          <div class="login-super-warning" role="note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <p>Área de acceso exclusivo para superadministradores del sistema. Las acciones quedan registradas en el log de auditoría.</p>
+          </div>
+
+          <div class="login-error" id="super-error" role="alert" aria-live="assertive">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span id="super-error-msg">Error al iniciar sesión.</span>
+          </div>
+
+          <form id="super-form" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="super-email-input">Correo de superadmin <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <input id="super-email-input" type="email" class="form-control" placeholder="superadmin@unipamplona.edu.co" autocomplete="email" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="super-pwd-input">Contraseña <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <input id="super-pwd-input" type="password" class="form-control" placeholder="Contraseña de superadmin" autocomplete="current-password" required>
+                <div class="input-suffix">
+                  <button type="button" id="super-pwd-toggle" aria-label="Mostrar/ocultar contraseña">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full btn-lg" id="super-submit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              Acceder como Superadmin
+            </button>
+          </form>
+        </div>
+
+        <!-- Footer de la tarjeta -->
+        <div class="login-card-footer">
+          <div class="login-security-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Conexión cifrada SSL · Sesión de 8 horas
+          </div>
+          <a href="/index.html" class="login-home-link">Portal público</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container" role="live" aria-live="polite" aria-label="Notificaciones"></div>
+
+  <!-- Scripts -->
+  <script src="../../services/services.js"></script>
+  <script src="../../router/router.js"></script>
+  <script src="admin-login.js"></script>
+</body>
+</html>

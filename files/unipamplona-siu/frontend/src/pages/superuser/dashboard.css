@@ -1,0 +1,79 @@
+/* ============================================================
+   SUPERUSER DASHBOARD.CSS — Panel de superadministrador
+   Universidad de Pamplona SIU
+   ============================================================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-5);
+}
+
+.dashboard-card {
+  background: var(--surface-card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+  overflow: hidden;
+}
+
+/* ── Celda con avatar en tabla ──────────────────────────────── */
+.user-name-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.user-name-text { font-weight: 600; }
+.user-sub-text  { font-size: var(--text-xs); color: var(--col-gray-500); }
+
+/* ── Badges de rol ──────────────────────────────────────────── */
+.role-badge-student  { background: var(--col-blue-100);    color: var(--col-blue-800); }
+.role-badge-teacher  { background: var(--col-success-bg);  color: var(--col-success); }
+.role-badge-admin    { background: var(--col-warning-bg);  color: var(--col-warning); }
+.role-badge-super    { background: var(--col-red-100);     color: var(--col-red-800); }
+
+/* ── Badges de auditoría ────────────────────────────────────── */
+.audit-badge-login    { background: var(--col-blue-100);    color: var(--col-blue-800); }
+.audit-badge-logout   { background: var(--col-gray-200);    color: var(--col-gray-700); }
+.audit-badge-create   { background: var(--col-success-bg);  color: var(--col-success); }
+.audit-badge-update   { background: var(--col-warning-bg);  color: var(--col-warning); }
+.audit-badge-delete   { background: var(--col-red-100);     color: var(--col-red-800); }
+.audit-badge-disable  { background: var(--col-red-200);     color: var(--col-red-900); }
+.audit-badge-enable   { background: var(--col-success-bg);  color: var(--col-success); }
+
+/* ── Tabla acciones ─────────────────────────────────────────── */
+.table-actions {
+  display: flex;
+  gap: var(--sp-1);
+  justify-content: center;
+}
+
+/* ── Confirm icon ───────────────────────────────────────────── */
+#confirm-icon.danger { background: var(--col-red-100); color: var(--col-red-700); }
+#confirm-icon.warning{ background: var(--col-warning-bg); color: #e08800; }
+
+/* ── Código de usuario ──────────────────────────────────────── */
+.user-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--col-gray-500);
+  background: var(--col-gray-100);
+  padding: 2px 6px;
+  border-radius: var(--r-xs);
+}
+
+/* ── IP en audit ────────────────────────────────────────────── */
+.audit-ip {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--col-gray-500);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,92 @@
+/* ============================================================
+   ADMIN DASHBOARD.CSS — Portal docente/administrativo
+   Universidad de Pamplona SIU
+   ============================================================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-5);
+}
+
+.dashboard-card {
+  background: var(--surface-card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+  overflow: hidden;
+}
+
+/* ── Grupo card ─────────────────────────────────────────────── */
+.group-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--col-gray-100);
+  cursor: pointer;
+  transition: background var(--tr-fast);
+}
+
+.group-item:last-child { border-bottom: none; }
+.group-item:hover { background: var(--col-gray-50); }
+
+.group-item.is-active {
+  background: var(--col-blue-50);
+  border-left: 3px solid var(--col-blue-700);
+}
+
+.group-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  background: var(--col-blue-100);
+  color: var(--col-blue-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: var(--text-md);
+  flex-shrink: 0;
+}
+
+.group-info { flex: 1; min-width: 0; }
+
+.group-name {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--col-gray-900);
+}
+
+.group-meta {
+  font-size: var(--text-xs);
+  color: var(--col-gray-500);
+  margin-top: 2px;
+}
+
+.group-count {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--col-blue-700);
+  flex-shrink: 0;
+}
+
+/* ── Tabla de estudiantes ───────────────────────────────────── */
+.student-name-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.student-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--col-gray-500);
+}
+
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
