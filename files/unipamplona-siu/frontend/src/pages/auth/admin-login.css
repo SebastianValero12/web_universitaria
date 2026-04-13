@@ -62,7 +62,8 @@
   z-index: 1;
 }
 
-.login-left-brand svg {
+.login-left-brand svg,
+.login-left-brand .brand-logo {
   width: 48px;
   height: 56px;
   flex-shrink: 0;

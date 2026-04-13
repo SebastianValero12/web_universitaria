@@ -4,24 +4,36 @@
    ============================================================ */
 :root {
   /* ── Familia Roja ─────────────────────────────────────── */
-  --col-red-900: #5c0000;
-  --col-red-800: #7a0000;
-  --col-red-700: #990000;   /* rojo primario oficial */
-  --col-red-600: #b30000;
-  --col-red-500: #cc0000;
-  --col-red-400: #e03333;
+  --col-red-900: #4d001f;
+  --col-red-800: #5c0927;
+  --col-red-700: #6f0d2f;   /* vinotinto primario */
+  --col-red-600: #83123a;
+  --col-red-500: #9e1b40;
+  --col-red-400: #b73a59;
   --col-red-300: #ea6666;
   --col-red-200: #f4b3b3;
   --col-red-100: #fad6d6;
   --col-red-50:  #fff5f5;
 
   /* ── Familia Azul ─────────────────────────────────────── */
-  --col-blue-900: #001122;
-  --col-blue-800: #001a33;
-  --col-blue-700: #003366;  /* azul primario oficial */
-  --col-blue-600: #004080;
-  --col-blue-500: #0055aa;
-  --col-blue-400: #3374bc;
+  --col-blue-900: #002d73;
+  --col-blue-800: #003c99;
+  --col-blue-700: #0052cc;  /* azul rey */
+  --col-blue-600: #1963d8;
+  --col-blue-500: #3374e3;
+  --col-blue-400: #5a91ef;
+  /* ── Familia Dorada ─────────────────────────────────────── */
+  --col-gold-900: #7a5b00;
+  --col-gold-800: #9a7600;
+  --col-gold-700: #b98a00;
+  --col-gold-600: #d4a017;  /* dorado principal */
+  --col-gold-500: #e0b63d;
+  --col-gold-400: #e7c35e;
+  --col-gold-300: #f0d894;
+  --col-gold-200: #f6e8bc;
+  --col-gold-100: #fbf4dc;
+  --col-gold-50:  #fefbf2;
+
   --col-blue-300: #6699cc;
   --col-blue-200: #99bfdf;
   --col-blue-100: #cce0f0;
@@ -40,10 +52,10 @@
   --col-gray-50:  #f8f8f8;
 
   /* ── Semánticos ───────────────────────────────────────── */
-  --col-success:      #1a6b3a;
-  --col-success-bg:   #e8f5ee;
-  --col-warning:      #7d5200;
-  --col-warning-bg:   #fff3cd;
+  --col-success:      var(--col-blue-700);
+  --col-success-bg:   var(--col-blue-50);
+  --col-warning:      var(--col-gold-700);
+  --col-warning-bg:   var(--col-gold-100);
   --col-danger:       var(--col-red-700);
   --col-danger-bg:    var(--col-red-50);
   --col-info:         var(--col-blue-500);
@@ -52,7 +64,7 @@
   /* ── Superficies ──────────────────────────────────────── */
   --surface-page:     #f4f4f6;
   --surface-card:     #ffffff;
-  --surface-sidebar:  #001a33;
+  --surface-sidebar:  #1d1430;
   --surface-navbar:   #ffffff;
   --surface-footer:   #001122;
 
@@ -103,8 +115,8 @@
   --sh-md:   0 4px 12px rgba(0,0,0,.10);
   --sh-lg:   0 8px 24px rgba(0,0,0,.12);
   --sh-xl:   0 16px 48px rgba(0,0,0,.16);
-  --sh-red:  0 4px 18px rgba(153,0,0,.25);
-  --sh-blue: 0 4px 18px rgba(0,51,102,.22);
+  --sh-red:  0 6px 20px rgba(111,13,47,.24);
+  --sh-blue: 0 6px 20px rgba(0,82,204,.24);
 
   /* ── Transiciones ─────────────────────────────────────── */
   --tr-fast:   150ms ease;

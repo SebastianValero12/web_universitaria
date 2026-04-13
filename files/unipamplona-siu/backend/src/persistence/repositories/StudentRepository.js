@@ -25,12 +25,23 @@ const StudentRepository = {
         student: { userId },
         academicPeriod: { isActive: true },
       },
+      orderBy: {
+        courseGroup: {
+          course: {
+            code: 'asc',
+          },
+        },
+      },
       include: {
         courseGroup: {
           include: {
             course:   { select: { id: true, name: true, code: true, credits: true } },
             teacher:  { include: { user: { select: { firstName: true, lastName: true } } } },
-            schedules:true,
+            schedules: {
+              include: {
+                classroom: { select: { name: true, code: true } },
+              },
+            },
           },
         },
         grades: true,

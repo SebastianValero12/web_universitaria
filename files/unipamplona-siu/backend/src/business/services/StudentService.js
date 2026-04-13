@@ -97,13 +97,18 @@ function buildSchedule(enrollments) {
         courseName: group.course.name.length > 12
           ? group.course.code
           : group.course.name,
-        room:       sch.classroomId ? 'Aula' : 'Por asignar',
+        room:       sch.classroom ? sch.classroom.name : 'Por asignar',
         color:      color,
       });
     });
   });
 
-  return schedule;
+  const dayOrder = { LUN: 1, MAR: 2, MIÉ: 3, JUE: 4, VIE: 5, SAB: 6, DOM: 7 };
+  return schedule.sort(function(a, b) {
+    const dayDiff = (dayOrder[a.day] || 99) - (dayOrder[b.day] || 99);
+    if (dayDiff !== 0) return dayDiff;
+    return a.startTime.localeCompare(b.startTime);
+  });
 }
 
 async function getActiveAnnouncements() {

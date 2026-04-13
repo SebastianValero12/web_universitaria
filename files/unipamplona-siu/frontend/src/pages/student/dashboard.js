@@ -65,13 +65,15 @@ async function initDashboard() {
       renderProgress(data.data.progress);
       renderNotices(data.data.announcements);
     }
-  } catch (err) {
-    // Usar datos de demostración si la API falla
-    renderStats(DEMO_STATS);
-    renderSchedule(DEMO_SCHEDULE);
-    renderGrades(DEMO_GRADES);
-    renderProgress(DEMO_PROGRESS);
-    renderNotices(DEMO_NOTICES);
+  } catch (_) {
+    renderStats({ subjects: 0, average: '—', credits: 0, attendance: '—' });
+    renderSchedule([]);
+    renderGrades([]);
+    renderProgress({ creditsCompleted: 0, creditsTotal: 160, semestersCompleted: 0, semestersTotal: 10, gpa: '—' });
+    renderNotices([]);
+    if (typeof Toast !== 'undefined') {
+      Toast.warning('No fue posible cargar datos del dashboard desde el servidor.', 'Sin conexión');
+    }
   }
 }
 
@@ -231,12 +233,13 @@ function renderGrades(grades) {
     return;
   }
 
-  const colors = ['red','blue','green','amber','indigo','pink'];
+  const colors = ['red','blue','amber','indigo','pink','green'];
 
   const html = grades.map(function(g, i) {
-    const score   = parseFloat(g.score) || 0;
+    const hasScore = g.score !== null && g.score !== undefined && g.score !== '';
+    const score = hasScore ? parseFloat(g.score) : null;
     const cls     = score >= 3.5 ? 'grade-score-pass' : (score >= 3.0 ? 'grade-score-warn' : 'grade-score-fail');
-    const pct     = Math.min(100, (score / 5.0) * 100);
+    const pct     = score !== null ? Math.min(100, (score / 5.0) * 100) : 0;
     const barColor= score >= 3.5 ? 'green' : (score >= 3.0 ? 'amber' : 'red');
     const color   = colors[i % colors.length];
 
@@ -252,7 +255,7 @@ function renderGrades(grades) {
             <div class="progress-bar ${barColor}" style="width:${pct}%;"></div>
           </div>
         </div>
-        <span class="grade-item-score ${cls}">${score.toFixed(1)}</span>
+        <span class="grade-item-score ${hasScore ? cls : ''}">${hasScore ? score.toFixed(1) : '—'}</span>
       </div>
     `;
   }).join('');
@@ -299,7 +302,11 @@ function renderProgress(progress) {
 /* ── Renderizar avisos ─────────────────────────────────────── */
 function renderNotices(notices) {
   const list = document.getElementById('notices-list');
-  if (!list || !notices || !notices.length) return;
+  if (!list) return;
+  if (!notices || !notices.length) {
+    list.innerHTML = '<div class="empty-state" style="padding:var(--sp-8);"><p class="empty-state-title">Sin avisos recientes</p></div>';
+    return;
+  }
 
   const iconMap = {
     red: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
@@ -311,17 +318,30 @@ function renderNotices(notices) {
   const html = notices.map(function(n) {
     return `
       <div class="notice-item ${n.unread ? 'is-unread' : ''}" role="article">
-        <div class="notice-icon ${n.type}">${iconMap[n.type] || iconMap.blue}</div>
+        <div class="notice-icon ${mapNoticeType(n)}">${iconMap[mapNoticeType(n)] || iconMap.blue}</div>
         <div class="notice-body">
           <div class="notice-title">${n.title}</div>
           <p class="notice-text">${n.body}</p>
         </div>
-        <span class="notice-meta">${n.date}</span>
+        <span class="notice-meta">${formatNoticeDate(n)}</span>
       </div>
     `;
   }).join('');
 
   list.innerHTML = html;
+}
+
+function mapNoticeType(notice) {
+  if (notice.type) return notice.type;
+  if (notice.priority === 'HIGH') return 'red';
+  if (notice.priority === 'LOW') return 'blue';
+  return 'amber';
+}
+
+function formatNoticeDate(notice) {
+  if (notice.date) return notice.date;
+  if (!notice.createdAt) return 'Reciente';
+  return new Date(notice.createdAt).toLocaleDateString('es-CO', { day: '2-digit', month: 'short' });
 }
 
 /* ── Navegación lateral ────────────────────────────────────── */
