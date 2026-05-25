@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/providers/session_provider.dart';
 import '../features/student/presentation/student_dashboard_screen.dart';
+import '../features/teacher/presentation/teacher_dashboard_screen.dart';
+import '../features/superuser/presentation/superuser_dashboard_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final session = ref.watch(sessionProvider);
@@ -11,8 +13,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
-      final loggedIn  = session != null;
-      final onLogin   = state.matchedLocation == '/';
+      final loggedIn = session != null;
+      final onLogin  = state.matchedLocation == '/';
       if (!loggedIn && !onLogin) return '/';
       if (loggedIn  &&  onLogin) return homeForRole(session.user.role);
       return null;
@@ -22,7 +24,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/',
         builder: (context, state) => const LoginScreen(),
       ),
-      // Placeholders — se reemplazan en M4, M5, M6
       GoRoute(
         path: '/student',
         builder: (context, state) => const StudentDashboardScreen(),
@@ -38,8 +39,3 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
-
-Widget _placeholder(String title) => Scaffold(
-  appBar: AppBar(title: Text(title)),
-  body: Center(child: Text(title, style: const TextStyle(fontSize: 20))),
-);

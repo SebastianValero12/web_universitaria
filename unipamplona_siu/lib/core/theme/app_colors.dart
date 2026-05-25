@@ -44,4 +44,7 @@ class AppColors {
   static const Color surfacePage    = Color(0xFFF4F4F6);
   static const Color surfaceCard    = Color(0xFFFFFFFF);
   static const Color surfaceSidebar = Color(0xFF1D1430);
-}
+
+  static const Color gray400 = Color(0xFF9CA3AF);
+  static const Color gray600 = Color(0xFF4B5563);
+} 
